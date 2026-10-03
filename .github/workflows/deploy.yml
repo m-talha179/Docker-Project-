@@ -27,15 +27,14 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/employee-backend:latest ./backend
       - name: Frontend Image Building
         run: |
-          docker build -t ${{ secrets.DOCKER_PASSWORD }}/employee-frontend:latest ./frontend
-
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/employee-frontend:latest ./frontend
       - name: Push Backend Image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/employee-backend:latest
 
       - name: Push Frontend Image
         run: |
-          docker push ${{ secrets.DOCKER_PASSWORD }}/employee-frontend:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/employee-frontend:latest
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
@@ -48,7 +47,7 @@ jobs:
             cd Docker-Project-
             docker compose down
             docker pull ${{ secrets.DOCKER_USERNAME }}/employee-backend:latest
-            docker pull ${{ secrets.DOCKER_PASSWORD }}/employee-frontend:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/employee-frontend:latest
             docker compose up -d 
             docker ps 
             
